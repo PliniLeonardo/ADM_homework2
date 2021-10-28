@@ -1,5 +1,10 @@
 import pandas as pd
 
+def safe_datetime_parser(x):
+  if not x.isalpha():
+    return pd.to_datetime(x, unit='s')
+  return pd.NA
+
 def read_csv_with_time(path, time_fields, n_rows=None, usecols=None):
     '''
       This function reads a csv and returns a dataframe considering only the first n_rows rows
@@ -21,7 +26,7 @@ def read_csv_with_time(path, time_fields, n_rows=None, usecols=None):
     '''
     
     return pd.read_csv(path, header='infer', nrows=n_rows, 
-        parse_dates= [tf for tf in time_fields], date_parser=lambda x: pd.to_datetime(x, unit='s'), usecols=usecols)
+        parse_dates= [tf for tf in time_fields], date_parser= lambda x: pd.to_datetime(x, unit='s'), usecols=usecols)
 
 
 def get_integer_ranges(ranges):
